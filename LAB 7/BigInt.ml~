@@ -1,0 +1,73 @@
+open Printf
+
+let linelist () = 
+let rec read_recursive lines =
+try
+Scanf.fscanf stdin "%[^\r\n]\n" (fun x -> read_recursive (x :: lines))
+with
+End_of_file ->
+lines in
+let lines = read_recursive [] in
+let _ = close_in_noerr stdin in
+List.rev (lines);;
+
+let toIntArray s = 
+let rec aux n =
+if (n<>String.length s)then
+int_of_string(String.make 1 s.[n])::aux (n+1)
+else [] in
+aux 0;;
+
+module BigNumber = struct
+type bignumber = BigNum of int list;;
+end
+
+module BigInteger = struct
+
+let rec add list = 
+match list with 
+|[]->0
+| hd::tl -> int_of_string(hd) + (add tl)
+
+let rec mult l = 
+match l with 
+|[]->1
+| hd::tl -> int_of_string(hd) * (mult tl)
+let sub l = 
+int_of_string(List.nth l 0)-int_of_string(List.nth l 1)
+
+let div l = 
+if((List.nth l 1) = "0") then (-1) else
+int_of_string(List.nth l 0)/int_of_string(List.nth l 1)
+
+let decide line =
+let l = String.split_on_char ' ' line in
+match l with
+|"ADD"::tl -> add tl
+|"MULT"::tl -> mult tl 
+|"SUB"::tl -> sub tl
+|"DIV"::tl -> div tl;;
+
+
+let rec aux1 llist = 
+let rec aux2 l n = 
+if(n>=1) then  
+let s = string_of_int(decide (List.nth l n)) in
+if(s = "-1") then (aux2 l (n-1))^"\n"^"NAN" 
+else if(aux2 l (n-1) = "" && s = "-1") then (aux2 l (n-1))^"NAN" 
+else if(aux2 l (n-1) = "") then (aux2 l (n-1))^s 
+else (aux2 l (n-1))^"\n"^s
+else
+"" in
+aux2 llist ((List.length llist)-2)
+
+end
+
+let () = 
+let l = linelist () in 
+let s = (BigInteger.aux1 l) in
+let output_channel = open_out (List.nth l 0) in
+fprintf output_channel "%s" s;
+close_out output_channel;;
+
+

@@ -1,0 +1,59 @@
+
+Previous  Up  Next
+Module Char
+
+module Char: sig .. end
+
+Character operations.
+
+val code : char -> int
+
+Return the ASCII code of the argument.
+
+val chr : int -> char
+
+Return the character with the given ASCII code. Raise Invalid_argument "Char.chr" if the argument is outside the range 0--255.
+
+val escaped : char -> string
+
+Return a string representing the given character, with special characters escaped following the lexical conventions of OCaml. All characters outside the ASCII printable range (32..126) are escaped, as well as backslash, double-quote, and single-quote.
+
+val lowercase : char -> char
+
+Deprecated.Functions operating on Latin-1 character set are deprecated.
+
+Convert the given character to its equivalent lowercase character, using the ISO Latin-1 (8859-1) character set.
+
+val uppercase : char -> char
+
+Deprecated.Functions operating on Latin-1 character set are deprecated.
+
+Convert the given character to its equivalent uppercase character, using the ISO Latin-1 (8859-1) character set.
+
+val lowercase_ascii : char -> char
+
+Convert the given character to its equivalent lowercase character, using the US-ASCII character set.
+
+    Since 4.03.0
+
+val uppercase_ascii : char -> char
+
+Convert the given character to its equivalent uppercase character, using the US-ASCII character set.
+
+    Since 4.03.0
+
+type t = char 
+
+An alias for the type of characters.
+
+val compare : t -> t -> int
+
+The comparison function for characters, with the same specification as compare. Along with the type t, this function compare allows the module Char to be passed as argument to the functors Set.Make and Map.Make.
+
+val equal : t -> t -> bool
+
+The equal function for chars.
+
+    Since 4.03.0
+
+
